@@ -20,7 +20,9 @@ from django import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('accounts/', include('django.contrib.auth.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
     path("", TemplateView.as_view(template_name="home.html"), name='home'),
-    path('user/', include('user_control.urls'))
+    path('user/', include('user_control.urls')),
+    path('user/password/', include('user_control_password.urls')),
+    path('pomodoro/', include('pomodoro.urls'))
 ]

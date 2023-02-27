@@ -9,6 +9,9 @@
             {{ login_form|crispy }}
             <button class="btn btn-primary" type='submit'>Log In</button>
         </form>
-        <p class="text-center p-5"><a href="{% url 'register_user' %}">Register</a> if you have not account yet</p>
+        <div class="p-5">
+            <p><a class="btn btn-secondary" href="{% url 'register_user' %}">Register</a> if you have not account yet</p>
+            <p><a class="btn btn-secondary" href="{% url 'password_reset' %}">Reset password</a> if you forgot it</p>
+        </div>
     </div>
 {% endblock  %}

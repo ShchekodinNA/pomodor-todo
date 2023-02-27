@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
-from .forms import UpdatedUserRegistrationForm
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
+from .forms import UpdatedUserRegistrationForm
 # Create your views here.
 
 
@@ -35,4 +35,5 @@ def login_request(request):
 
 def logout_request(request):
     logout(request)
+    messages.info(request, "You have successfully logged out.")
     return redirect('home')

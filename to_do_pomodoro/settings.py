@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     "crispy_bootstrap5",
     'user_control',
+    'user_control_password',
+    'pomodoro'
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -133,3 +135,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"
+
+# DEV
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# SMTP {
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.mail.ru'
+EMAIL_USE_TLS = False
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True
+EMAIL_HOST_USER = environ.get('PUBLIC_EMAIL_ADDRESS')
+EMAIL_HOST_PASSWORD = environ.get('PUBLIC_EMAIL_PASSWORD')
+# }
