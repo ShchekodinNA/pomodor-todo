@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}
+    PSettings
+{% endblock title %}
+{% load crispy_forms_tags %}
+{% block body %}
+    <div class="container p-5">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Preset name</th>
+                    <th scope="col">Active</th>
+                    <th scope="col">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for setting in settings %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>
+                            <a href="#">"{{ setting.name }}"</a>
+                        </td>
+                        <td>
+                            <form method="post">
+                                {% csrf_token %}
+                                <input type="hidden" id="inner_method" name="inner_method" value="activate"/>
+                                <input type="hidden"
+                                       id="setting_id"
+                                       name="setting_id"
+                                       value="{{ setting.id }}"/>
+                                {% if setting.active %}
+                                    <button class="btn btn-success" type='submit'>&#9746</button>
+                                {% else %}
+                                    <button class="btn btn-outline-success" type='submit'>&#9744</button>
+                                {% endif %}
+                            </form>
+                        </td>
+                        <td>
+                            <form method="post">
+                                {% csrf_token %}
+                                <input type="hidden" id="inner_method" name="inner_method" value="delete"/>
+                                <input type="hidden"
+                                       id="setting_id"
+                                       name="setting_id"
+                                       value="{{ setting.id }}"/>
+                                <button class="btn btn-danger" type='submit'>&#9747</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% empty %}
+                {% endfor %}
+            </tbody>
+        </table>
+        <hr/>
+        <a class="btn btn-success" href="#">Add Preset</a>
+    </div>
+{% endblock body %}

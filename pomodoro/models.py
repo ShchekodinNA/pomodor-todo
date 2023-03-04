@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.core.exceptions import ObjectDoesNotExist
 # Create your models here.
-
+from datetime import datetime
 VALIDATORS_GENERIC_MINUTES: list = [
     MinValueValidator(1), MaxValueValidator(99)]
 VALIDATOR_MIN_ITERATIONS = MinValueValidator(2)
@@ -14,11 +14,12 @@ DEFAULT_POMODORO = 25
 DEFAULT_SMALL_REST = 5
 DEFAULT_LONG_REST = 15
 DEFAULT_ITERATIONS = 4
-
+MAX_NAME_LENGTH = 15
 
 class PomodoroSettingToUser(models.Model):
     user = models.ForeignKey(User,
                              on_delete=models.CASCADE)
+    name = models.CharField(default='preset', max_length=MAX_NAME_LENGTH, blank=False)
     pomodoro = models.IntegerField(default=DEFAULT_POMODORO,
                                    validators=VALIDATORS_GENERIC_MINUTES)
     small_rest = models.IntegerField(default=DEFAULT_SMALL_REST,
@@ -28,8 +29,14 @@ class PomodoroSettingToUser(models.Model):
     long_break = models.IntegerField(default=DEFAULT_LONG_REST,
                                      validators=VALIDATORS_GENERIC_MINUTES)
     active = models.BooleanField(default=False)
+    
+    def __str__(self):
+        return f"{self.user=}, {self.pomodoro=}, {self.small_rest=}, {self.long_break=}"
+    
 
     def save(self, *args, **kwargs) -> None:
+        if self.name == '':
+            self.name = datetime.now().strftime("%d/%m/%Y, %H:%M:%S")
         true_record = self._get_active_record_for_current_user_or_none()
         self._check_true_record_and_switch_active_if_current_is_active(true_record)
         return super().save(*args, **kwargs)
